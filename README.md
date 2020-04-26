@@ -1,5 +1,5 @@
-# PHP MVC
-PHP MVC Framework
+# SharePosts
+PHP Web Application to share blog Posts
 
 ### Core technologies:
 - xampp
@@ -16,6 +16,6 @@ PHP MVC Framework
 - `index.php` - The entry point to our application. 
 
 ## Version
-Version: 1.0.0
+Version: 0.0.1
 
 Created By Gabriel Stone (@GabStone)
