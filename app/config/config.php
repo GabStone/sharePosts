@@ -9,6 +9,9 @@
     // Site Name
     define('SITENAME', 'SharePosts');
 
+    // Version
+    define('APPVERSION', '0.0.1');
+
     // DB Params
     define('DB_HOST', 'localhost');
     define('DB_USER', 'root');
