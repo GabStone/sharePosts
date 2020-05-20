@@ -6,10 +6,42 @@
             $this->db = new Database();
         }
 
+        // Register User
+        public function register($data) {
+            $this->db->query('INSERT INTO users(name, email, password) VALUES(:name, :email, :password)');
+
+            // Bind Values
+            $this->db->bind(':name', $data['name']);
+            $this->db->bind(':email', $data['email']);
+            $this->db->bind(':password', $data['password']);
+
+            // Execute Insert Statement
+            if ($this->db->execute()) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        // Login User
+        public function login($email, $password) {
+            $this->db->query('SELECT * FROM users where email = :email');
+            $this->db->bind(':email', $email);
+
+            $row = $this->db->single();
+            $hashedPassword = $row->password;
+            if (password_verify($password, $hashedPassword)) {
+                return $row;
+            } else {
+                return false;
+            }
+        }
+
         // Find user by email
         public function findUserByEmail($email) {
-            echo "im being called" . $email;
             $this->db->query('SELECT * FROM users WHERE email = :email');
+
+            // Bind Value
             $this->db->bind(':email', $email);
             $row = $this->db->single();
 

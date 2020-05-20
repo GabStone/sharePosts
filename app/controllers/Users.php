@@ -62,7 +62,16 @@
                 // Make sure errors are empty
                 if (empty($data['emailErr']) && empty($data['nameErr']) && empty($data['passwordErr']) && empty($data['confirmPasswordErr'])) {
                     // Validated
-                    die("success");
+
+                    // Hash Password
+                    $data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
+
+                    if ($this->userModel->register($data)) {
+                        flash('register_success', 'You are registered and can log in');
+                        redirect('users/login');
+                    } else {
+                        die("Something went wrong");
+                    }
                 } else {
                     // Load the view with errors
                     $this->view('users/register', $data);
@@ -114,15 +123,30 @@
                     $data['passwordErr'] = 'Please enter password';
                 }
 
+                if ($this->userModel->findUserByEmail($data['email'])) {
+                    // User Found
+                } else {
+                    // User not found
+                    $data['emailErr'] = 'User Not Found!';
+                }
+
                 // Make sure errors are empty
                 if (empty($data['emailErr']) && empty($data['passwordErr'])) {
-                    die("success");
+                    // Check and set logged in user
+                    $loggedInUser = $this->userModel->login($data['email'], $data['password']);
+
+                    if ($loggedInUser) {
+                        // Create Session
+                        $this->createUserSession($loggedInUser);
+                    } else {
+                        // Error
+                        $data['passwordErr'] = 'Password Incorrect';
+                        $this->view('users/login', $data);
+                    }
                 } else {
                     // Load the view with errors
                     $this->view('users/login', $data);
                 }
-
-
             } else {
                 // Init data
                 $data = [
@@ -135,6 +159,30 @@
                 // Load the view
                 $this->view('users/login', $data);
 
+            }
+        }
+
+        // Create User Session
+        public function createUserSession($user) {
+            $_SESSION['user_id'] = $user->id;
+            $_SESSION['user_email'] = $user->email;
+            $_SESSION['user_name'] = $user->name;
+            redirect('pages/index');
+        }
+
+        public function logout() {
+            unset($_SESSION['user_id']);
+            unset($_SESSION['user_email']);
+            unset($_SESSION['user_name']);
+            session_destroy();
+            redirect('users/login');
+        }
+
+        public function isLoggedIn() {
+            if (isset($_SESSION['user_id'])) {
+                return true;
+            } else {
+                return false;
             }
         }
     }
