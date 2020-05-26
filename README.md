@@ -7,15 +7,13 @@ PHP Web Application to share blog Posts
 - MYSQL
 - Apache
 
-### Running the Server:
-- TBD
-
 ## Application Structure
 - `app` - Back End Application.
 - `public` - Front End Application.
-- `index.php` - The entry point to our application. 
+- `index.php` - The entry point to our application.
+- `/Users/gabrielstone/.bitnami/stackman/machines/xampp/volumes/root/htdocs/sharePosts` Local Path 
 
 ## Version
-Version: 0.0.1
+Version: 1.0.0
 
 Created By Gabriel Stone (@GabStone)

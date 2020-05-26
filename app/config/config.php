@@ -10,7 +10,7 @@
     define('SITENAME', 'SharePosts');
 
     // Version
-    define('APPVERSION', '0.0.1');
+    define('APPVERSION', '1.0.0');
 
     // DB Params
     define('DB_HOST', 'localhost');

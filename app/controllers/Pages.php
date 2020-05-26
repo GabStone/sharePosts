@@ -9,6 +9,11 @@
          * Landing Page
          */
         public function index() {
+
+            if (isLoggedIn()) {
+                redirect('posts');
+            }
+
             $data = ['title' =>'SharePosts', 'description' => 'Simple social network built using phpMVC framework'];
             $this->view('pages/index', $data);
         }
